@@ -1,0 +1,29 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/ordereventdb?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+ # config:
+  #  activate:
+  #    on-profile: local
+  kafka:
+    template:
+      default-topic: order-event
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: order-event-listener-group
+    producer:
+      bootstrap-servers:
+        -   localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+ 
+
